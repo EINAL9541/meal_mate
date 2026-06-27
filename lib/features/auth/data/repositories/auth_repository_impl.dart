@@ -48,6 +48,12 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<User> login(String email, String password, String role) async {
     try {
+      if (email.isEmpty && password.isEmpty) {
+        throw BussinessFailure(
+          'Please enter your email or password to log in.',
+        );
+      }
+
       final credential = await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -85,10 +91,9 @@ class AuthRepositoryImpl implements AuthRepository {
       return defaultUser;
     } on fb.FirebaseAuthException catch (e) {
       throw AuthFailure(_mapAuthError(e.code, e.message));
-    } on BussinessFailure catch(e) {
+    } on BussinessFailure catch (e) {
       throw AuthFailure(e.message);
-    }
-     catch (e) {
+    } catch (e) {
       throw AuthFailure(
         'An unexpected error occurred during login. Please check your network and try again.',
       );
