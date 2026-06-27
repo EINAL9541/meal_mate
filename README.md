@@ -30,7 +30,7 @@ This project is structured around:
 - Go Router
 - Dio
 - Flutter ScreenUtil
-- Flutter Toast
+- Toastification
 
 ## Project Structure
 
